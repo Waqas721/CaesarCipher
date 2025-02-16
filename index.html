@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <link rel="shortcut icon" href="log.png" type="image/x-icon">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #232526, #414345); 
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #222;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        label {
+            font-weight: bold;
+            color: #444;
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            font-size: 16px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            width: 48%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .encode-btn {
+            background: #28a745; 
+        }
+
+        .decode-btn {
+            background: #dc3545; 
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .result-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .result-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            font-size: 16px;
+            background: #f8f8f8;
+            color: #444;
+            pointer-events: none;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Caesar Cipher</h2>
+
+        <label for="inputText">Enter Text:</label>
+        <textarea id="inputText" placeholder="Type your text here..."></textarea>
+
+        <div class="buttons">
+            <button class="encode-btn" onclick="encodeText()">Encode</button>
+            <button class="decode-btn" onclick="decodeText()">Decode</button>
+        </div>
+        
+        <div class="result-container">
+            <label for="outputText">Result:</label>
+            <textarea id="outputText" class="result-textarea" readonly>Your result will appear here...</textarea>
+        </div>
+    </div>
+
+    <!-- Copyright Footer -->
+    <div class="footer">
+        © 2025 Muhammad Waqas Ansari (B21110006095)
+    </div>
+
+    <script>
+        /**
+         * Function to apply the Caesar Cipher shift
+         * Encryption Formula: C = (P + Key) mod 26
+         * Decryption Formula: P = (C - Key) mod 26
+         * Where:
+         * C = Ciphered letter
+         * P = Plain text letter
+         * Key = Shift value (3 in this case)
+         */
+        function caesarCipher(text, shift) {
+            return text.split("").map(char => {
+                // Check if the character is a letter (A-Z or a-z)
+                if (char.match(/[a-z]/i)) {
+                    let code = char.charCodeAt(0); // Get ASCII value of character
+                    let offset = code >= 65 && code <= 90 ? 65 : 97; // Determine uppercase or lowercase
+
+                    // Apply formula and return new character
+                    return String.fromCharCode(((code - offset + shift) % 26 + 26) % 26 + offset);
+                }
+                return char; // If not a letter, return as is
+            }).join("");
+        }
+
+        /**
+         * Function to encode the text using Caesar Cipher with shift 3
+         */
+        function encodeText() {
+            let input = document.getElementById("inputText").value;
+            document.getElementById("outputText").value = caesarCipher(input, 3);
+        }
+
+        /**
+         * Function to decode the text by shifting back by 3
+         */
+        function decodeText() {
+            let input = document.getElementById("inputText").value;
+            document.getElementById("outputText").value = caesarCipher(input, -3);
+        }
+    </script>
+</body>
+</html>
